@@ -1,0 +1,41 @@
+[package]
+name = "str-utils"
+version = "0.1.0"
+authors = ["Magic Len <len@magiclen.org>"]
+edition = "2018"
+repository = "https://github.com/magiclen/str-utils"
+homepage = "https://magiclen.org/str-utils"
+keywords = ["caseless", "string", "ascii", "starts_with", "ends_with"]
+categories = ["no-std", "text-processing"]
+description = "This crate provides some traits to extend types which implement `AsRef<[u8]>` or `AsRef<str>`."
+readme = "README.md"
+license = "MIT"
+include = ["src/**/*", "Cargo.toml", "benches/**/*"]
+
+[badges.travis-ci]
+repository = "magiclen/str-utils"
+branch = "master"
+
+[dependencies]
+unicase = "2"
+cow-utils = "0.1"
+
+[dev-dependencies]
+bencher = "0.1.5"
+slash-formatter = "3"
+
+[features]
+default = []
+std = []
+
+[[bench]]
+name = "eq_multiple"
+harness = false
+
+[[bench]]
+name = "eq_ignore_ascii_case"
+harness = false
+
+[[bench]]
+name = "eq_ignore_ascii_case_multiple"
+harness = false
