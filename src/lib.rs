@@ -11,21 +11,7 @@ extern crate str_utils;
 use str_utils::*;
 
 assert_eq!(true, "foobar".starts_with_ignore_ascii_case("FoO"));
-```
-
-```rust
-extern crate str_utils;
-
-use str_utils::*;
-
 assert_eq!(Some(1), "photo.jpg".ends_with_ignore_ascii_case_multiple(&[".png", ".jpg", ".gif"]));
-```
-
-```rust
-extern crate str_utils;
-
-use str_utils::*;
-
 assert_eq!(true, "http".eq_ignore_ascii_case_with_uppercase("HTTP")); // faster than `eq_ignore_ascii_case`
 ```
 */
