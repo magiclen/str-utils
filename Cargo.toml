@@ -1,6 +1,6 @@
 [package]
 name = "str-utils"
-version = "0.1.1"
+version = "0.1.2"
 authors = ["Magic Len <len@magiclen.org>"]
 edition = "2018"
 repository = "https://github.com/magiclen/str-utils"
@@ -10,7 +10,7 @@ categories = ["no-std", "text-processing"]
 description = "This crate provides some traits to extend types which implement `AsRef<[u8]>` or `AsRef<str>`."
 readme = "README.md"
 license = "MIT"
-include = ["src/**/*", "Cargo.toml", "benches/**/*"]
+include = ["src/**/*", "Cargo.toml", "LICENSE", "README.md", "benches/**/*"]
 
 [badges.travis-ci]
 repository = "magiclen/str-utils"
