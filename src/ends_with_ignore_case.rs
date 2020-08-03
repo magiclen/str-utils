@@ -4,7 +4,7 @@ use cow_utils::CowUtils;
 
 /// To extend types which implement `AsRef<str>` to have a `ends_with_ignore_case` method.
 pub trait EndsWithIgnoreCase {
-    /// Returns `true` if the given string slice case-insensitively (only ignoring ASCII case) matches a suffix of this string slice.
+    /// Returns `true` if the given string slice case-insensitively (using case-folding) matches a suffix of this string slice.
     ///
     /// NOTE: This method may allocate heap memory.
     fn ends_with_ignore_case<S: AsRef<str>>(&self, b: S) -> bool;
