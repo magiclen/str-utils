@@ -25,6 +25,7 @@ assert_eq!(true, "http".eq_ignore_ascii_case_with_uppercase("HTTP")); // faster 
 mod ends_with_ignore_ascii_case;
 mod ends_with_ignore_ascii_case_multiple;
 mod ends_with_ignore_case;
+mod ends_with_multiple;
 mod eq_ignore_ascii_case;
 mod eq_ignore_ascii_case_multiple;
 mod eq_ignore_case;
@@ -33,11 +34,11 @@ mod starts_with_ignore_ascii_case;
 mod starts_with_ignore_ascii_case_multiple;
 mod starts_with_ignore_case;
 mod starts_with_multiple;
-mod ends_with_multiple;
 
 pub use ends_with_ignore_ascii_case::*;
 pub use ends_with_ignore_ascii_case_multiple::*;
 pub use ends_with_ignore_case::*;
+pub use ends_with_multiple::*;
 pub use eq_ignore_ascii_case::*;
 pub use eq_ignore_ascii_case_multiple::*;
 pub use eq_ignore_case::*;
@@ -46,4 +47,3 @@ pub use starts_with_ignore_ascii_case::*;
 pub use starts_with_ignore_ascii_case_multiple::*;
 pub use starts_with_ignore_case::*;
 pub use starts_with_multiple::*;
-pub use ends_with_multiple::*;

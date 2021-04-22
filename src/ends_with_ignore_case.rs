@@ -27,7 +27,9 @@ impl<T: AsRef<str>> EndsWithIgnoreCase for T {
             let au_length = au.len();
             let bu_length = bu.len();
 
-            if au_length >= bu_length && unsafe { au.get_unchecked((au_length - bu_length)..) == bu } {
+            if au_length >= bu_length
+                && unsafe { au.get_unchecked((au_length - bu_length)..) == bu }
+            {
                 return true;
             }
         }
