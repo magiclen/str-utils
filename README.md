@@ -1,7 +1,7 @@
 str Utils
 ====================
 
-[![Build Status](https://travis-ci.org/magiclen/str-utils.svg?branch=master)](https://travis-ci.org/magiclen/str-utils)
+[![CI](https://github.com/magiclen/str-utils/actions/workflows/ci.yml/badge.svg)](https://github.com/magiclen/str-utils/actions/workflows/ci.yml)
 
 This crate provides some traits to extend types which implement `AsRef<[u8]>` or `AsRef<str>`.
 

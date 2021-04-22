@@ -1,6 +1,6 @@
 [package]
 name = "str-utils"
-version = "0.1.3"
+version = "0.1.4"
 authors = ["Magic Len <len@magiclen.org>"]
 edition = "2018"
 repository = "https://github.com/magiclen/str-utils"
@@ -12,10 +12,6 @@ readme = "README.md"
 license = "MIT"
 include = ["src/**/*", "Cargo.toml", "README.md", "LICENSE", "benches/**/*"]
 
-[badges.travis-ci]
-repository = "magiclen/str-utils"
-branch = "master"
-
 [dependencies]
 unicase = "2"
 cow-utils = "0.1"
@@ -23,10 +19,6 @@ cow-utils = "0.1"
 [dev-dependencies]
 bencher = "0.1.5"
 slash-formatter = "3"
-
-[features]
-default = []
-std = []
 
 [[bench]]
 name = "eq_multiple"

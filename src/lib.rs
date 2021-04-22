@@ -16,7 +16,7 @@ assert_eq!(true, "http".eq_ignore_ascii_case_with_uppercase("HTTP")); // faster 
 ```
 */
 
-#![cfg_attr(not(feature = "std"), no_std)]
+#![no_std]
 
 // TODO eq_ignore_case_multiple
 // TODO starts_with_ignore_case_multiple
