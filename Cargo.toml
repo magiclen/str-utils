@@ -1,6 +1,6 @@
 [package]
 name = "str-utils"
-version = "0.1.4"
+version = "0.1.5"
 authors = ["Magic Len <len@magiclen.org>"]
 edition = "2018"
 repository = "https://github.com/magiclen/str-utils"
@@ -18,7 +18,7 @@ cow-utils = "0.1"
 
 [dev-dependencies]
 bencher = "0.1.5"
-slash-formatter = "3"
+manifest-dir-macros = "0.1.6"
 
 [[bench]]
 name = "eq_multiple"

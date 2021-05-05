@@ -4,7 +4,7 @@ extern crate str_utils;
 extern crate bencher;
 
 #[macro_use]
-extern crate slash_formatter;
+extern crate manifest_dir_macros;
 
 use std::fs;
 
@@ -12,7 +12,7 @@ use bencher::Bencher;
 
 use str_utils::EqMultiple;
 
-const INPUT_PATH: &str = concat_with_file_separator!("benches", "data", "abcdefghijklmnop.txt");
+const INPUT_PATH: &str = file_path!("benches/data/abcdefghijklmnop.txt");
 
 fn eq_multiple_naive_match(bencher: &mut Bencher) {
     let needle = fs::read_to_string(INPUT_PATH).unwrap();
