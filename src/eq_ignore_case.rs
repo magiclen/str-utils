@@ -1,5 +1,3 @@
-extern crate unicase;
-
 use unicase::UniCase;
 
 /**
@@ -8,7 +6,6 @@ To extend types which implement `AsRef<str>` to have a `eq_ignore_case` method.
 However, it is not recommended to use this trait. Try to wrap your type inside `UniCase` by yourself instead.
 
 ```rust
-extern crate unicase;
 use unicase::UniCase;
 
 let a = UniCase::new("Maße");

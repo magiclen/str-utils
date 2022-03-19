@@ -1,5 +1,3 @@
-extern crate cow_utils;
-
 use cow_utils::CowUtils;
 
 /// To extend types which implement `AsRef<str>` to have a `starts_with_ignore_case` method.

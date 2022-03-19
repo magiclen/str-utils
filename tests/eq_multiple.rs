@@ -1,5 +1,3 @@
-extern crate str_utils;
-
 use str_utils::EqMultiple;
 
 #[test]

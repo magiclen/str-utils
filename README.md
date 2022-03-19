@@ -8,8 +8,6 @@ This crate provides some traits to extend types which implement `AsRef<[u8]>` or
 ## Examples
 
 ```rust
-extern crate str_utils;
-
 use str_utils::*;
 
 assert_eq!(true, "foobar".starts_with_ignore_ascii_case("FoO"));
