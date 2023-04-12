@@ -1,7 +1,6 @@
 use std::fs;
 
 use bencher::{benchmark_group, benchmark_main, Bencher};
-
 use str_utils::EqIgnoreAsciiCase;
 
 const INPUT_PATH: &str = manifest_dir_macros::file_path!("benches/data/abcdefghijklmnop.txt");

@@ -3,6 +3,7 @@ name = "str-utils"
 version = "0.1.6"
 authors = ["Magic Len <len@magiclen.org>"]
 edition = "2021"
+rust-version = "1.56"
 repository = "https://github.com/magiclen/str-utils"
 homepage = "https://magiclen.org/str-utils"
 keywords = ["caseless", "string", "ascii", "starts_with", "ends_with"]

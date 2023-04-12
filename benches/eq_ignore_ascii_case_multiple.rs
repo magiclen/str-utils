@@ -1,7 +1,6 @@
 use std::fs;
 
 use bencher::{benchmark_group, benchmark_main, Bencher};
-
 use str_utils::EqIgnoreAsciiCaseMultiple;
 
 const INPUT_PATH: &str = manifest_dir_macros::file_path!("benches/data/abcdefghijklmnop.txt");
@@ -9,14 +8,12 @@ const INPUT_PATH: &str = manifest_dir_macros::file_path!("benches/data/abcdefghi
 fn eq_ignore_ascii_case_with_lowercase_multiple_naive_match(bencher: &mut Bencher) {
     let needle = fs::read_to_string(INPUT_PATH).unwrap();
 
-    bencher.iter(|| {
-        match needle.to_ascii_lowercase().as_str() {
-            "12345678" => Some(0),
-            "12345670" => Some(1),
-            "abcdefghijklmnob" => Some(2),
-            "abcdefghijklmnop" => Some(3),
-            _ => None,
-        }
+    bencher.iter(|| match needle.to_ascii_lowercase().as_str() {
+        "12345678" => Some(0),
+        "12345670" => Some(1),
+        "abcdefghijklmnob" => Some(2),
+        "abcdefghijklmnop" => Some(3),
+        _ => None,
     })
 }
 
