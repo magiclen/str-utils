@@ -1,6 +1,6 @@
 [package]
 name = "str-utils"
-version = "0.1.7"
+version = "0.1.8"
 authors = ["Magic Len <len@magiclen.org>"]
 edition = "2021"
 rust-version = "1.60"
@@ -13,6 +13,7 @@ license = "MIT"
 include = ["src/**/*", "Cargo.toml", "README.md", "LICENSE", "benches/**/*"]
 
 [dependencies]
+utf8-width = "0.1"
 unicase = "2"
 cow-utils = "0.1"
 
@@ -31,3 +32,7 @@ harness = false
 [[bench]]
 name = "eq_ignore_ascii_case_multiple"
 harness = false
+
+[features]
+default = []
+std = []

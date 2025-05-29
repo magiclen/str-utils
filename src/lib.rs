@@ -14,7 +14,7 @@ assert_eq!(true, "http".eq_ignore_ascii_case_with_uppercase("HTTP")); // faster 
 ```
 */
 
-#![no_std]
+#![cfg_attr(not(feature = "std"), no_std)]
 
 // TODO eq_ignore_case_multiple
 // TODO starts_with_ignore_case_multiple
@@ -28,6 +28,8 @@ mod eq_ignore_ascii_case;
 mod eq_ignore_ascii_case_multiple;
 mod eq_ignore_case;
 mod eq_multiple;
+#[cfg(feature = "std")]
+mod remove_all_invisible_characters;
 mod starts_with_ignore_ascii_case;
 mod starts_with_ignore_ascii_case_multiple;
 mod starts_with_ignore_case;
@@ -41,6 +43,8 @@ pub use eq_ignore_ascii_case::*;
 pub use eq_ignore_ascii_case_multiple::*;
 pub use eq_ignore_case::*;
 pub use eq_multiple::*;
+#[cfg(feature = "std")]
+pub use remove_all_invisible_characters::*;
 pub use starts_with_ignore_ascii_case::*;
 pub use starts_with_ignore_ascii_case_multiple::*;
 pub use starts_with_ignore_case::*;
