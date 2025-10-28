@@ -1,4 +1,4 @@
-use std::borrow::Cow;
+use alloc::{borrow::Cow, vec::Vec};
 
 /// To extend types which implement `AsRef<str>` to have `remove_all_invisible_characters` method.
 pub trait RemoveInvisibleCharacters {

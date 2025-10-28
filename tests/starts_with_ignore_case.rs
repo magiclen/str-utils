@@ -1,3 +1,5 @@
+#![cfg(feature = "alloc")]
+
 use str_utils::StartsWithIgnoreCase;
 
 #[test]

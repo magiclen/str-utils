@@ -15,7 +15,6 @@ include = ["src/**/*", "Cargo.toml", "README.md", "LICENSE", "benches/**/*"]
 [dependencies]
 utf8-width = "0.1"
 unicase = "2"
-cow-utils = "0.1"
 
 [dev-dependencies]
 bencher = "0.1.5"
@@ -35,7 +34,8 @@ harness = false
 
 [features]
 default = ["std"]
-std = []
+std = ["alloc"]
+alloc = []
 
 [package.metadata.docs.rs]
 all-features = true

@@ -1,4 +1,4 @@
-use cow_utils::CowUtils;
+use crate::{ToLowercase, ToUppercase};
 
 /// To extend types which implement `AsRef<str>` to have a `starts_with_ignore_case` method.
 pub trait StartsWithIgnoreCase {
@@ -19,8 +19,8 @@ impl<T: AsRef<str>> StartsWithIgnoreCase for T {
         }
 
         {
-            let au = a.cow_to_uppercase();
-            let bu = b.cow_to_uppercase();
+            let au = a.to_uppercase_cow();
+            let bu = b.to_uppercase_cow();
 
             let au_length = au.len();
             let bu_length = bu.len();
@@ -30,8 +30,8 @@ impl<T: AsRef<str>> StartsWithIgnoreCase for T {
             }
         }
 
-        let al = a.cow_to_lowercase();
-        let bl = b.cow_to_lowercase();
+        let al = a.to_lowercase_cow();
+        let bl = b.to_lowercase_cow();
 
         let al_length = al.len();
         let bl_length = bl.len();

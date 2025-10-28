@@ -12,10 +12,18 @@ assert_eq!(true, "foobar".starts_with_ignore_ascii_case("FoO"));
 assert_eq!(Some(1), "photo.jpg".ends_with_ignore_ascii_case_multiple(&[".png", ".jpg", ".gif"]));
 assert_eq!(true, "http".eq_ignore_ascii_case_with_uppercase("HTTP")); // faster than `eq_ignore_ascii_case`
 assert_eq!(true, "foobar".starts_with_ignore_ascii_case("FoO"));
-# #[cfg(feature = "std")]
+# #[cfg(feature = "alloc")]
 assert_eq!("here is a ZERO_WIDTH_SPACE -> ​".len() - 3, "here is a ZERO_WIDTH_SPACE -> ​".remove_all_invisible_characters().len());
-# #[cfg(feature = "std")]
+# #[cfg(feature = "alloc")]
 assert_eq!(r"foo\% b\_r", r"foo% b_r".escape_ascii_characters(b'\\', b"%_"));
+# #[cfg(feature = "alloc")]
+assert_eq!("aabbi\u{0307}zz", "AaBb\u{0130}Zz".to_lowercase_cow());
+# #[cfg(feature = "alloc")]
+assert_eq!("aabb\u{0130}zz", "AaBb\u{0130}Zz".to_ascii_lowercase_cow());
+# #[cfg(feature = "alloc")]
+assert_eq!("AABBSSZZ", "aabbßzz".to_uppercase_cow());
+# #[cfg(feature = "alloc")]
+assert_eq!("AABBßZZ", "aabbßzz".to_ascii_uppercase_cow());
 ```
 
 ## No Std
@@ -36,36 +44,51 @@ default-features = false
 // TODO starts_with_ignore_case_multiple
 // TODO ends_with_ignore_case_multiple
 
+#[cfg(feature = "alloc")]
+extern crate alloc;
+
 mod ends_with_ignore_ascii_case;
 mod ends_with_ignore_ascii_case_multiple;
+#[cfg(feature = "alloc")]
 mod ends_with_ignore_case;
 mod ends_with_multiple;
 mod eq_ignore_ascii_case;
 mod eq_ignore_ascii_case_multiple;
 mod eq_ignore_case;
 mod eq_multiple;
-#[cfg(feature = "std")]
+#[cfg(feature = "alloc")]
 mod escape_characters;
-#[cfg(feature = "std")]
+#[cfg(feature = "alloc")]
 mod remove_all_invisible_characters;
 mod starts_with_ignore_ascii_case;
 mod starts_with_ignore_ascii_case_multiple;
+#[cfg(feature = "alloc")]
 mod starts_with_ignore_case;
 mod starts_with_multiple;
+#[cfg(feature = "alloc")]
+mod to_lowercase;
+#[cfg(feature = "alloc")]
+mod to_uppercase;
 
 pub use ends_with_ignore_ascii_case::*;
 pub use ends_with_ignore_ascii_case_multiple::*;
+#[cfg(feature = "alloc")]
 pub use ends_with_ignore_case::*;
 pub use ends_with_multiple::*;
 pub use eq_ignore_ascii_case::*;
 pub use eq_ignore_ascii_case_multiple::*;
 pub use eq_ignore_case::*;
 pub use eq_multiple::*;
-#[cfg(feature = "std")]
+#[cfg(feature = "alloc")]
 pub use escape_characters::*;
-#[cfg(feature = "std")]
+#[cfg(feature = "alloc")]
 pub use remove_all_invisible_characters::*;
 pub use starts_with_ignore_ascii_case::*;
 pub use starts_with_ignore_ascii_case_multiple::*;
+#[cfg(feature = "alloc")]
 pub use starts_with_ignore_case::*;
 pub use starts_with_multiple::*;
+#[cfg(feature = "alloc")]
+pub use to_lowercase::*;
+#[cfg(feature = "alloc")]
+pub use to_uppercase::*;

@@ -1,4 +1,4 @@
-use std::{borrow::Cow, str};
+use alloc::{borrow::Cow, str, vec::Vec};
 
 /// To extend types which implement `AsRef<str>` to have `escape_characters` and `escape_ascii_characters` method.
 ///
