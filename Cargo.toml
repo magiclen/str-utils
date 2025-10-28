@@ -1,6 +1,6 @@
 [package]
 name = "str-utils"
-version = "0.1.9"
+version = "0.2.0"
 authors = ["Magic Len <len@magiclen.org>"]
 edition = "2021"
 rust-version = "1.61"
@@ -34,5 +34,9 @@ name = "eq_ignore_ascii_case_multiple"
 harness = false
 
 [features]
-default = []
+default = ["std"]
 std = []
+
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]

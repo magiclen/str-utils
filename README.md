@@ -17,6 +17,16 @@ assert_eq!("here is a ZERO_WIDTH_SPACE -> ​".len() - 3, "here is a ZERO_WIDTH_
 assert_eq!(r"foo\% b\_r", r"foo% b_r".escape_ascii_characters(b'\\', b"%_"));
 ```
 
+## No Std
+
+Disable the default features to compile this crate without std.
+
+```toml
+[dependencies.str-utils]
+version = "*"
+default-features = false
+```
+
 ## Crates.io
 
 https://crates.io/crates/str-utils

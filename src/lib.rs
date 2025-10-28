@@ -17,9 +17,20 @@ assert_eq!("here is a ZERO_WIDTH_SPACE -> ​".len() - 3, "here is a ZERO_WIDTH_
 # #[cfg(feature = "std")]
 assert_eq!(r"foo\% b\_r", r"foo% b_r".escape_ascii_characters(b'\\', b"%_"));
 ```
+
+## No Std
+
+Disable the default features to compile this crate without std.
+
+```toml
+[dependencies.str-utils]
+version = "*"
+default-features = false
+```
 */
 
 #![cfg_attr(not(feature = "std"), no_std)]
+#![cfg_attr(docsrs, feature(doc_cfg))]
 
 // TODO eq_ignore_case_multiple
 // TODO starts_with_ignore_case_multiple

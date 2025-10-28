@@ -22,7 +22,7 @@ jobs:
           - nightly
         features:
           -
-          - --features std
+          - --no-default-features
     name: Test ${{ matrix.toolchain }} on ${{ matrix.os }} (${{ matrix.features }})
     runs-on: ${{ matrix.os }}
     steps:
@@ -45,7 +45,7 @@ jobs:
           - "1.61"
         features:
           -
-          - --features std
+          - --no-default-features
     name: Test ${{ matrix.toolchain }} on ${{ matrix.os }} (${{ matrix.features }})
     runs-on: ${{ matrix.os }}
     steps:

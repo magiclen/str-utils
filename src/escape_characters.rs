@@ -17,7 +17,7 @@ pub trait EscapeCharacters {
 
     /// Escapes ASCII characters within a UTF-8 string.
     ///
-    /// Similar to [`escape_characters`], but operates directly on bytes instead of Unicode scalar values.
+    /// Similar to [`EscapeCharacters::escape_characters`], but operates directly on bytes instead of Unicode scalar values.
     /// This version is optimized for ASCII-only escaping and avoids unnecessary Unicode conversions.
     fn escape_ascii_characters(
         &self,
