@@ -14,7 +14,7 @@ include = ["src/**/*", "Cargo.toml", "README.md", "LICENSE", "benches/**/*"]
 
 [dependencies]
 utf8-width = "0.1"
-unicase = "2"
+unicase = { version = "2", optional = true }
 
 [dev-dependencies]
 bencher = "0.1.5"
@@ -33,9 +33,10 @@ name = "eq_ignore_ascii_case_multiple"
 harness = false
 
 [features]
-default = ["std"]
+default = ["std", "unicase"]
 std = ["alloc"]
 alloc = []
+unicase = ["dep:unicase"]
 
 [package.metadata.docs.rs]
 all-features = true

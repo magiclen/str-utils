@@ -1,3 +1,5 @@
+#![cfg(feature = "unicase")]
+
 use str_utils::EqIgnoreCase;
 
 #[test]

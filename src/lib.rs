@@ -54,6 +54,7 @@ mod ends_with_ignore_case;
 mod ends_with_multiple;
 mod eq_ignore_ascii_case;
 mod eq_ignore_ascii_case_multiple;
+#[cfg(feature = "unicase")]
 mod eq_ignore_case;
 mod eq_multiple;
 #[cfg(feature = "alloc")]
@@ -77,6 +78,7 @@ pub use ends_with_ignore_case::*;
 pub use ends_with_multiple::*;
 pub use eq_ignore_ascii_case::*;
 pub use eq_ignore_ascii_case_multiple::*;
+#[cfg(feature = "unicase")]
 pub use eq_ignore_case::*;
 pub use eq_multiple::*;
 #[cfg(feature = "alloc")]
