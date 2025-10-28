@@ -20,11 +20,11 @@ pub trait RemoveInvisibleCharacters {
     ///
     /// These characters can interfere with text rendering, parsing, and display,
     /// and are often used in text-based attacks (e.g., for spoofing).
-    fn remove_all_invisible_characters(&self) -> Cow<str>;
+    fn remove_all_invisible_characters(&self) -> Cow<'_, str>;
 }
 
 impl<T: AsRef<str>> RemoveInvisibleCharacters for T {
-    fn remove_all_invisible_characters(&self) -> Cow<str> {
+    fn remove_all_invisible_characters(&self) -> Cow<'_, str> {
         let s = self.as_ref();
         let bytes = s.as_bytes();
 
