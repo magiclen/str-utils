@@ -14,6 +14,8 @@ assert_eq!(true, "http".eq_ignore_ascii_case_with_uppercase("HTTP")); // faster 
 assert_eq!(true, "foobar".starts_with_ignore_ascii_case("FoO"));
 # #[cfg(feature = "std")]
 assert_eq!("here is a ZERO_WIDTH_SPACE -> ​".len() - 3, "here is a ZERO_WIDTH_SPACE -> ​".remove_all_invisible_characters().len());
+# #[cfg(feature = "std")]
+assert_eq!(r"foo\% b\_r", r"foo% b_r".escape_ascii_characters(b'\\', b"%_"));
 ```
 */
 
@@ -32,6 +34,8 @@ mod eq_ignore_ascii_case_multiple;
 mod eq_ignore_case;
 mod eq_multiple;
 #[cfg(feature = "std")]
+mod escape_characters;
+#[cfg(feature = "std")]
 mod remove_all_invisible_characters;
 mod starts_with_ignore_ascii_case;
 mod starts_with_ignore_ascii_case_multiple;
@@ -46,6 +50,8 @@ pub use eq_ignore_ascii_case::*;
 pub use eq_ignore_ascii_case_multiple::*;
 pub use eq_ignore_case::*;
 pub use eq_multiple::*;
+#[cfg(feature = "std")]
+pub use escape_characters::*;
 #[cfg(feature = "std")]
 pub use remove_all_invisible_characters::*;
 pub use starts_with_ignore_ascii_case::*;
