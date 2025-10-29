@@ -1,4 +1,4 @@
-use alloc::{borrow::Cow, vec::Vec};
+use alloc::{borrow::Cow, str};
 
 /// To extend types which implement `AsRef<str>` to have `remove_all_invisible_characters` method.
 pub trait RemoveInvisibleCharacters {
@@ -85,9 +85,95 @@ impl<T: AsRef<str>> RemoveInvisibleCharacters for T {
             }
         };
 
-        let mut new_bytes = Vec::with_capacity(length);
+        let heading_normal_characters_end_index = p;
 
-        new_bytes.extend_from_slice(&bytes[..p]);
+        p += width;
+
+        // there are four situations which can use a string slice:
+        // 1. <invisible_characters>
+        // 2. <normal_characters><invisible_characters>
+        // 3. <invisible_characters><normal_characters>
+        // 4. <invisible_characters><normal_characters><invisible_characters>
+
+        // continue to find more invisible characters
+        let width = loop {
+            if p == length {
+                // situation 1 or situation 2
+
+                return Cow::from(unsafe {
+                    str::from_utf8_unchecked(&bytes[..heading_normal_characters_end_index])
+                });
+            }
+
+            let e = bytes[p];
+
+            let width = unsafe { utf8_width::get_width_assume_valid(e) };
+
+            if check_character_whether_to_remove(p, e, width) {
+                p += width;
+            } else {
+                break width;
+            }
+        };
+
+        let following_invisible_characters_end_index = p;
+
+        p += width;
+
+        // continue to find more normal characters
+        let width = loop {
+            if p == length {
+                // situation 3
+
+                return Cow::from(unsafe {
+                    str::from_utf8_unchecked(&bytes[following_invisible_characters_end_index..])
+                });
+            }
+
+            let e = bytes[p];
+
+            let width = unsafe { utf8_width::get_width_assume_valid(e) };
+
+            if check_character_whether_to_remove(p, e, width) {
+                break width;
+            } else {
+                p += width;
+            }
+        };
+
+        let following_normal_characters_end_index = p;
+
+        p += width;
+
+        // continue to find more invisible characters
+        let width = loop {
+            if p == length {
+                // situation 4
+
+                return Cow::from(unsafe {
+                    str::from_utf8_unchecked(
+                        &bytes[following_invisible_characters_end_index
+                            ..following_normal_characters_end_index],
+                    )
+                });
+            }
+
+            let e = bytes[p];
+
+            let width = unsafe { utf8_width::get_width_assume_valid(e) };
+
+            if check_character_whether_to_remove(p, e, width) {
+                p += width;
+            } else {
+                break width;
+            }
+        };
+
+        let mut new_v = bytes
+            [following_invisible_characters_end_index..following_normal_characters_end_index]
+            .to_vec();
+
+        let mut start = p;
 
         p += width;
 
@@ -100,13 +186,17 @@ impl<T: AsRef<str>> RemoveInvisibleCharacters for T {
 
             let width = unsafe { utf8_width::get_width_assume_valid(e) };
 
-            if !check_character_whether_to_remove(p, e, width) {
-                new_bytes.extend_from_slice(&bytes[p..(p + width)]);
+            if check_character_whether_to_remove(p, e, width) {
+                new_v.extend_from_slice(&bytes[start..p]);
+
+                start = p + width;
             }
 
             p += width;
         }
 
-        Cow::from(unsafe { String::from_utf8_unchecked(new_bytes) })
+        new_v.extend_from_slice(&bytes[start..p]);
+
+        Cow::from(unsafe { String::from_utf8_unchecked(new_v) })
     }
 }
