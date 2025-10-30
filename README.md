@@ -3,7 +3,7 @@ str Utils
 
 [![CI](https://github.com/magiclen/str-utils/actions/workflows/ci.yml/badge.svg)](https://github.com/magiclen/str-utils/actions/workflows/ci.yml)
 
-This crate provides some traits to extend types which implement `AsRef<[u8]>` or `AsRef<str>`.
+This crate provides some traits to extend `[u8]`, `str` and `Cow<str>`.
 
 ## Examples
 
@@ -18,6 +18,11 @@ assert_eq!(true, "foobar".starts_with_ignore_ascii_case("FoO"));
 assert_eq!("here is a ZERO_WIDTH_SPACE -> ​".len() - 3, "here is a ZERO_WIDTH_SPACE -> ​".remove_all_invisible_characters().len());
 
 assert_eq!(r"foo\% b\_r", r"foo% b_r".escape_ascii_characters(b'\\', b"%_"));
+
+assert!(!"AaBb\u{0130}Zz".is_lowercased());
+assert!(!"AaBbZz".is_ascii_lowercased());
+assert!(!"aabbßzz".is_uppercased());
+assert!(!"aabbzz".is_ascii_uppercased());
 
 assert_eq!("aabbi\u{0307}zz", "AaBb\u{0130}Zz".to_lowercase_cow());
 assert_eq!("aabb\u{0130}zz", "AaBb\u{0130}Zz".to_ascii_lowercase_cow());

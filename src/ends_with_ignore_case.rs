@@ -1,6 +1,6 @@
 use crate::{ToLowercase, ToUppercase};
 
-/// To extend types which implement `AsRef<str>` to have a `ends_with_ignore_case` method.
+/// To extend `str` to have a `ends_with_ignore_case` method.
 pub trait EndsWithIgnoreCase {
     /// Returns `true` if the given string slice case-insensitively (using case-folding) matches a suffix of this string slice.
     ///
@@ -8,10 +8,10 @@ pub trait EndsWithIgnoreCase {
     fn ends_with_ignore_case<S: AsRef<str>>(&self, b: S) -> bool;
 }
 
-impl<T: AsRef<str>> EndsWithIgnoreCase for T {
+impl EndsWithIgnoreCase for str {
     #[inline]
     fn ends_with_ignore_case<S: AsRef<str>>(&self, b: S) -> bool {
-        let a = self.as_ref();
+        let a = self;
         let b = b.as_ref();
 
         if b.is_empty() {

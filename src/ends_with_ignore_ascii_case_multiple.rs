@@ -1,4 +1,4 @@
-/// To extend types which implement `AsRef<[u8]>` to have `ends_with_ignore_ascii_case_multiple`, `ends_with_ignore_ascii_case_with_lowercase_multiple` and `ends_with_ignore_ascii_case_with_uppercase_multiple` methods.
+/// To extend `[u8]` and `str` to have `ends_with_ignore_ascii_case_multiple`, `ends_with_ignore_ascii_case_with_lowercase_multiple` and `ends_with_ignore_ascii_case_with_uppercase_multiple` methods.
 pub trait EndsWithIgnoreAsciiCaseMultiple {
     /// Returns `Some(usize)` if one of the given string slices case-insensitively (only ignoring ASCII case) matches a suffix of this string slice.
     fn ends_with_ignore_ascii_case_multiple<S: AsRef<[u8]>>(&self, bs: &[S]) -> Option<usize>;
@@ -16,10 +16,10 @@ pub trait EndsWithIgnoreAsciiCaseMultiple {
     ) -> Option<usize>;
 }
 
-impl<T: AsRef<[u8]>> EndsWithIgnoreAsciiCaseMultiple for T {
+impl EndsWithIgnoreAsciiCaseMultiple for [u8] {
     #[inline]
     fn ends_with_ignore_ascii_case_multiple<S: AsRef<[u8]>>(&self, bs: &[S]) -> Option<usize> {
-        let a = self.as_ref();
+        let a = self;
         let a_length = a.len();
 
         for (i, b) in bs.iter().enumerate() {
@@ -44,7 +44,7 @@ impl<T: AsRef<[u8]>> EndsWithIgnoreAsciiCaseMultiple for T {
         &self,
         bs: &[S],
     ) -> Option<usize> {
-        let a = self.as_ref();
+        let a = self;
         let a_length = a.len();
 
         for (i, b) in bs.iter().enumerate() {
@@ -76,7 +76,7 @@ impl<T: AsRef<[u8]>> EndsWithIgnoreAsciiCaseMultiple for T {
         &self,
         bs: &[S],
     ) -> Option<usize> {
-        let a = self.as_ref();
+        let a = self;
         let a_length = a.len();
 
         for (i, b) in bs.iter().enumerate() {
@@ -101,5 +101,28 @@ impl<T: AsRef<[u8]>> EndsWithIgnoreAsciiCaseMultiple for T {
         }
 
         None
+    }
+}
+
+impl EndsWithIgnoreAsciiCaseMultiple for str {
+    #[inline]
+    fn ends_with_ignore_ascii_case_multiple<S: AsRef<[u8]>>(&self, bs: &[S]) -> Option<usize> {
+        self.as_bytes().ends_with_ignore_ascii_case_multiple(bs)
+    }
+
+    #[inline]
+    fn ends_with_ignore_ascii_case_with_lowercase_multiple<S: AsRef<[u8]>>(
+        &self,
+        bs: &[S],
+    ) -> Option<usize> {
+        self.as_bytes().ends_with_ignore_ascii_case_with_lowercase_multiple(bs)
+    }
+
+    #[inline]
+    fn ends_with_ignore_ascii_case_with_uppercase_multiple<S: AsRef<[u8]>>(
+        &self,
+        bs: &[S],
+    ) -> Option<usize> {
+        self.as_bytes().ends_with_ignore_ascii_case_with_uppercase_multiple(bs)
     }
 }

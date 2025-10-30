@@ -1,7 +1,7 @@
 use unicase::UniCase;
 
 /**
-To extend types which implement `AsRef<str>` to have a `eq_ignore_case` method.
+To extend `str` to have a `eq_ignore_case` method.
 
 However, it is not recommended to use this trait. Try to wrap your type inside `UniCase` by yourself instead.
 
@@ -19,10 +19,10 @@ pub trait EqIgnoreCase {
     fn eq_ignore_case<S: AsRef<str>>(&self, b: S) -> bool;
 }
 
-impl<T: AsRef<str>> EqIgnoreCase for T {
+impl EqIgnoreCase for str {
     #[inline]
     fn eq_ignore_case<S: AsRef<str>>(&self, b: S) -> bool {
-        let a = self.as_ref();
+        let a = self;
         let b = b.as_ref();
 
         if a.is_ascii() {

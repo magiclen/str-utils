@@ -1,18 +1,18 @@
 use alloc::{borrow::Cow, vec::Vec};
 
-/// To extend types which implement `AsRef<str>` to have `replace_newlines_with_space` method.
+/// To extend `str` and `Cow<str>` to have `replace_newlines_with_space` method.
 ///
 /// This can be useful when you need to normalize multiline strings into a single line for logging, database storage, or display purposes.
-pub trait ReplaceNewlinesWithSpace {
+pub trait ReplaceNewlinesWithSpace<'a> {
     /// Returns a `Cow<str>` where all newline sequences are replaced with a space.
     ///
     /// Replaces Windows-style newlines (`\r\n`), old Mac-style (`\r`), and Unix-style (`\n`).
-    fn replace_newlines_with_space(&self) -> Cow<'_, str>;
+    fn replace_newlines_with_space(self) -> Cow<'a, str>;
 }
 
-impl<T: AsRef<str>> ReplaceNewlinesWithSpace for T {
-    fn replace_newlines_with_space(&self) -> Cow<'_, str> {
-        let s = self.as_ref();
+impl<'a> ReplaceNewlinesWithSpace<'a> for &'a str {
+    fn replace_newlines_with_space(self) -> Cow<'a, str> {
+        let s = self;
         let bytes = s.as_bytes();
         let length = bytes.len();
 
@@ -89,5 +89,24 @@ impl<T: AsRef<str>> ReplaceNewlinesWithSpace for T {
         new_v.extend_from_slice(&bytes[start..p]);
 
         Cow::from(unsafe { String::from_utf8_unchecked(new_v) })
+    }
+}
+
+impl<'a> ReplaceNewlinesWithSpace<'a> for Cow<'a, str> {
+    #[inline]
+    fn replace_newlines_with_space(self) -> Cow<'a, str> {
+        match self {
+            Cow::Borrowed(s) => s.replace_newlines_with_space(),
+            Cow::Owned(s) => {
+                match s.replace_newlines_with_space() {
+                    Cow::Borrowed(_) => {
+                        // it changes nothing
+                        // if there were any characters that needed to be replaced, it had to be `Cow::Owned`
+                        Cow::Owned(s)
+                    },
+                    Cow::Owned(s) => Cow::Owned(s),
+                }
+            },
+        }
     }
 }

@@ -8,7 +8,7 @@ repository = "https://github.com/magiclen/str-utils"
 homepage = "https://magiclen.org/str-utils"
 keywords = ["caseless", "string", "ascii", "starts_with", "ends_with"]
 categories = ["no-std", "text-processing"]
-description = "This crate provides some traits to extend types which implement `AsRef<[u8]>` or `AsRef<str>`."
+description = "This crate provides some traits to extend `[u8]`, `str` and `Cow<str>`."
 license = "MIT"
 include = ["src/**/*", "Cargo.toml", "README.md", "LICENSE", "benches/**/*"]
 

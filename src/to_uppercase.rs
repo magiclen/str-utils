@@ -1,46 +1,68 @@
 use alloc::{borrow::Cow, str};
 
-/// To extend types which implement `AsRef<str>` to have `is_uppercase`, `is_ascii_uppercase`, `to_uppercase_cow` and `to_ascii_uppercase_cow` methods.
-pub trait ToUppercase {
-    /// Returns `true` if all characters in the string are uppercase according to Unicode.
-    fn is_uppercase(&self) -> bool;
+use crate::{IsAsciiUppercased, IsUppercased};
 
-    /// Returns `true` if all characters in the string are ASCII uppercase.
-    fn is_ascii_uppercase(&self) -> bool;
-
+/// To extend `str` and `Cow<str>` to have `to_uppercase_cow` and `to_ascii_uppercase_cow` methods.
+pub trait ToUppercase<'a> {
     /// Converts the string to its uppercase form (Unicode-aware), returning a `Cow<str>` to avoid allocation when possible.
-    fn to_uppercase_cow(&self) -> Cow<'_, str>;
+    fn to_uppercase_cow(self) -> Cow<'a, str>;
 
     /// Converts the string to its ASCII uppercase form, returning a `Cow<str>` to avoid allocation when possible.
-    fn to_ascii_uppercase_cow(&self) -> Cow<'_, str>;
+    fn to_ascii_uppercase_cow(self) -> Cow<'a, str>;
 }
 
-impl<T: AsRef<str>> ToUppercase for T {
+impl<'a> ToUppercase<'a> for &'a str {
     #[inline]
-    fn is_uppercase(&self) -> bool {
-        self.as_ref().chars().all(|c| c.is_uppercase())
-    }
-
-    #[inline]
-    fn is_ascii_uppercase(&self) -> bool {
-        self.as_ref().chars().all(|c| c.is_ascii_uppercase())
-    }
-
-    #[inline]
-    fn to_uppercase_cow(&self) -> Cow<'_, str> {
-        if self.is_uppercase() {
-            Cow::from(self.as_ref())
+    fn to_uppercase_cow(self) -> Cow<'a, str> {
+        if self.is_uppercased() {
+            Cow::from(self)
         } else {
-            Cow::from(self.as_ref().to_uppercase())
+            Cow::from(self.to_uppercase())
         }
     }
 
     #[inline]
-    fn to_ascii_uppercase_cow(&self) -> Cow<'_, str> {
-        if self.is_ascii_uppercase() {
-            Cow::from(self.as_ref())
+    fn to_ascii_uppercase_cow(self) -> Cow<'a, str> {
+        if self.is_ascii_uppercased() {
+            Cow::from(self)
         } else {
-            Cow::from(self.as_ref().to_ascii_uppercase())
+            Cow::from(self.to_ascii_uppercase())
+        }
+    }
+}
+
+impl<'a> ToUppercase<'a> for Cow<'a, str> {
+    #[inline]
+    fn to_uppercase_cow(self) -> Cow<'a, str> {
+        match self {
+            Cow::Borrowed(s) => s.to_uppercase_cow(),
+            Cow::Owned(s) => {
+                match s.to_uppercase_cow() {
+                    Cow::Borrowed(_) => {
+                        // it changes nothing
+                        // if there were any characters that needed to be lowercased, it had to be `Cow::Owned`
+                        Cow::Owned(s)
+                    },
+                    Cow::Owned(s) => Cow::Owned(s),
+                }
+            },
+        }
+    }
+
+    #[inline]
+    fn to_ascii_uppercase_cow(self) -> Cow<'a, str> {
+        match self {
+            Cow::Borrowed(s) => s.to_ascii_uppercase_cow(),
+            Cow::Owned(s) => {
+                match s.to_ascii_uppercase_cow() {
+                    Cow::Borrowed(_) => {
+                        // it changes nothing
+                        // if there were any characters that needed to be lowercased, it had to be `Cow::Owned`
+                        Cow::Owned(s)
+                    },
+                    Cow::Owned(s) => Cow::Owned(s),
+                }
+            },
         }
     }
 }

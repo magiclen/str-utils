@@ -1,7 +1,7 @@
 /*!
 # str Utils
 
-This crate provides some traits to extend types which implement `AsRef<[u8]>` or `AsRef<str>`.
+This crate provides some traits to extend `[u8]`, `str` and `Cow<str>`.
 
 ## Examples
 
@@ -18,6 +18,11 @@ assert_eq!("here is a ZERO_WIDTH_SPACE -> ​".len() - 3, "here is a ZERO_WIDTH_
 
 # #[cfg(feature = "alloc")]
 assert_eq!(r"foo\% b\_r", r"foo% b_r".escape_ascii_characters(b'\\', b"%_"));
+
+assert!(!"AaBb\u{0130}Zz".is_lowercased());
+assert!(!"AaBbZz".is_ascii_lowercased());
+assert!(!"aabbßzz".is_uppercased());
+assert!(!"aabbzz".is_ascii_uppercased());
 
 # #[cfg(feature = "alloc")]
 assert_eq!("aabbi\u{0307}zz", "AaBb\u{0130}Zz".to_lowercase_cow());
@@ -65,6 +70,10 @@ mod eq_ignore_case;
 mod eq_multiple;
 #[cfg(feature = "alloc")]
 mod escape_characters;
+mod is_ascii_lowercased;
+mod is_ascii_uppercased;
+mod is_lowercased;
+mod is_uppercased;
 #[cfg(feature = "alloc")]
 mod remove_all_invisible_characters;
 #[cfg(feature = "alloc")]
@@ -91,6 +100,10 @@ pub use eq_ignore_case::*;
 pub use eq_multiple::*;
 #[cfg(feature = "alloc")]
 pub use escape_characters::*;
+pub use is_ascii_lowercased::*;
+pub use is_ascii_uppercased::*;
+pub use is_lowercased::*;
+pub use is_uppercased::*;
 #[cfg(feature = "alloc")]
 pub use remove_all_invisible_characters::*;
 #[cfg(feature = "alloc")]
@@ -104,3 +117,40 @@ pub use starts_with_multiple::*;
 pub use to_lowercase::*;
 #[cfg(feature = "alloc")]
 pub use to_uppercase::*;
+
+#[cfg(feature = "alloc")]
+pub(crate) unsafe fn find_substring_position(parent: &str, sub: &str) -> (usize, usize) {
+    let parent_start_address = parent.as_ptr() as usize;
+
+    let sub_start_address = sub.as_ptr() as usize;
+    let position_len = sub.len();
+
+    let position_start = sub_start_address - parent_start_address;
+
+    (position_start, position_len)
+}
+
+#[cfg(feature = "alloc")]
+pub(crate) unsafe fn into_substring_in_place(
+    mut s: String,
+    (start, len): (usize, usize),
+) -> String {
+    let bytes = s.as_mut_vec();
+
+    bytes.drain(..start);
+    bytes.truncate(len);
+
+    s
+}
+
+#[cfg(feature = "alloc")]
+macro_rules! to_substring_in_place {
+    ($parent:ident, $sub:ident) => {{
+        let position = $crate::find_substring_position($parent.as_str(), $sub);
+
+        $crate::into_substring_in_place($parent, position)
+    }};
+}
+
+#[cfg(feature = "alloc")]
+pub(crate) use to_substring_in_place;

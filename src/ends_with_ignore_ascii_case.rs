@@ -1,4 +1,4 @@
-/// To extend types which implement `AsRef<[u8]>` to have `ends_with_ignore_ascii_case`, `ends_with_ignore_ascii_case_with_lowercase` and `ends_with_ignore_ascii_case_with_uppercase` methods.
+/// To extend `[u8]` and `str` to have `ends_with_ignore_ascii_case`, `ends_with_ignore_ascii_case_with_lowercase` and `ends_with_ignore_ascii_case_with_uppercase` methods.
 pub trait EndsWithIgnoreAsciiCase {
     /// Returns `true` if the given string slice case-insensitively (only ignoring ASCII case) matches a suffix of this string slice.
     fn ends_with_ignore_ascii_case<S: AsRef<[u8]>>(&self, b: S) -> bool;
@@ -10,7 +10,7 @@ pub trait EndsWithIgnoreAsciiCase {
     fn ends_with_ignore_ascii_case_with_uppercase<S: AsRef<[u8]>>(&self, b: S) -> bool;
 }
 
-impl<T: AsRef<[u8]>> EndsWithIgnoreAsciiCase for T {
+impl EndsWithIgnoreAsciiCase for [u8] {
     #[inline]
     fn ends_with_ignore_ascii_case<S: AsRef<[u8]>>(&self, b: S) -> bool {
         let b = b.as_ref();
@@ -21,7 +21,7 @@ impl<T: AsRef<[u8]>> EndsWithIgnoreAsciiCase for T {
             return true;
         }
 
-        let a = self.as_ref();
+        let a = self;
 
         let a_length = a.len();
 
@@ -44,7 +44,7 @@ impl<T: AsRef<[u8]>> EndsWithIgnoreAsciiCase for T {
             return true;
         }
 
-        let a = self.as_ref();
+        let a = self;
 
         let a_length = a.len();
 
@@ -71,7 +71,7 @@ impl<T: AsRef<[u8]>> EndsWithIgnoreAsciiCase for T {
             return true;
         }
 
-        let a = self.as_ref();
+        let a = self;
 
         let a_length = a.len();
 
@@ -84,5 +84,22 @@ impl<T: AsRef<[u8]>> EndsWithIgnoreAsciiCase for T {
         } else {
             false
         }
+    }
+}
+
+impl EndsWithIgnoreAsciiCase for str {
+    #[inline]
+    fn ends_with_ignore_ascii_case<S: AsRef<[u8]>>(&self, b: S) -> bool {
+        self.as_bytes().ends_with_ignore_ascii_case(b)
+    }
+
+    #[inline]
+    fn ends_with_ignore_ascii_case_with_lowercase<S: AsRef<[u8]>>(&self, b: S) -> bool {
+        self.as_bytes().ends_with_ignore_ascii_case_with_lowercase(b)
+    }
+
+    #[inline]
+    fn ends_with_ignore_ascii_case_with_uppercase<S: AsRef<[u8]>>(&self, b: S) -> bool {
+        self.as_bytes().ends_with_ignore_ascii_case_with_uppercase(b)
     }
 }

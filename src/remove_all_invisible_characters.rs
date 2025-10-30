@@ -1,7 +1,9 @@
 use alloc::{borrow::Cow, str};
 
-/// To extend types which implement `AsRef<str>` to have `remove_all_invisible_characters` method.
-pub trait RemoveInvisibleCharacters {
+use crate::to_substring_in_place;
+
+/// To extend `str` and `Cow<str>` to have `remove_all_invisible_characters` method.
+pub trait RemoveInvisibleCharacters<'a> {
     /// Removes all invisible or non-printable characters from a given string.
     ///
     /// This function filters out a comprehensive set of Unicode characters that are typically
@@ -20,12 +22,12 @@ pub trait RemoveInvisibleCharacters {
     ///
     /// These characters can interfere with text rendering, parsing, and display,
     /// and are often used in text-based attacks (e.g., for spoofing).
-    fn remove_all_invisible_characters(&self) -> Cow<'_, str>;
+    fn remove_all_invisible_characters(self) -> Cow<'a, str>;
 }
 
-impl<T: AsRef<str>> RemoveInvisibleCharacters for T {
-    fn remove_all_invisible_characters(&self) -> Cow<'_, str> {
-        let s = self.as_ref();
+impl<'a> RemoveInvisibleCharacters<'a> for &'a str {
+    fn remove_all_invisible_characters(self) -> Cow<'a, str> {
+        let s = self;
         let bytes = s.as_bytes();
 
         let length = bytes.len();
@@ -198,5 +200,18 @@ impl<T: AsRef<str>> RemoveInvisibleCharacters for T {
         new_v.extend_from_slice(&bytes[start..p]);
 
         Cow::from(unsafe { String::from_utf8_unchecked(new_v) })
+    }
+}
+
+impl<'a> RemoveInvisibleCharacters<'a> for Cow<'a, str> {
+    #[inline]
+    fn remove_all_invisible_characters(self) -> Cow<'a, str> {
+        match self {
+            Cow::Borrowed(s) => s.remove_all_invisible_characters(),
+            Cow::Owned(s) => match s.remove_all_invisible_characters() {
+                Cow::Borrowed(ss) => Cow::Owned(unsafe { to_substring_in_place!(s, ss) }),
+                Cow::Owned(s) => Cow::Owned(s),
+            },
+        }
     }
 }
