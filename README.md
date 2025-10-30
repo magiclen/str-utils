@@ -30,6 +30,8 @@ assert_eq!("AABBSSZZ", "aabbßzz".to_uppercase_cow());
 assert_eq!("AABBßZZ", "aabbßzz".to_ascii_uppercase_cow());
 
 assert_eq!("Line 1 Line 2 Line 2 Line 3 Line 4 Line 5", "Line 1\r\nLine 2\r\nLine 2\rLine 3\nLine 4\nLine 5".replace_newlines_with_space());
+
+assert_eq!("abc", Cow::from(" abc ").trim_cow()); // the `trim_cow` family of methods can be used on a `Cow<str>` to allow fluent method chaining.
 ```
 
 ## No Std

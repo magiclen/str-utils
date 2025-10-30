@@ -1,4 +1,4 @@
-use alloc::{borrow::Cow, str, vec::Vec};
+use alloc::{borrow::Cow, str::from_utf8_unchecked, vec::Vec};
 
 /// To extend `str` and `Cow<str>` to have `escape_characters` and `escape_ascii_characters` method.
 ///
@@ -60,7 +60,7 @@ impl<'a> EscapeCharacters<'a> for &'a str {
 
         let mut new_s = String::with_capacity(s.len() + 1);
 
-        new_s.push_str(unsafe { str::from_utf8_unchecked(&s.as_bytes()[0..p]) });
+        new_s.push_str(unsafe { from_utf8_unchecked(&s.as_bytes()[0..p]) });
         new_s.push(escape_character);
         new_s.push(first_c);
 

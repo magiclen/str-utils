@@ -1,4 +1,4 @@
-use alloc::{borrow::Cow, str};
+use alloc::borrow::Cow;
 
 use crate::{IsAsciiLowercased, IsLowercased};
 
@@ -15,18 +15,18 @@ impl<'a> ToLowercase<'a> for &'a str {
     #[inline]
     fn to_lowercase_cow(self) -> Cow<'a, str> {
         if self.is_lowercased() {
-            Cow::from(self)
+            Cow::Borrowed(self)
         } else {
-            Cow::from(self.to_lowercase())
+            Cow::Owned(self.to_lowercase())
         }
     }
 
     #[inline]
     fn to_ascii_lowercase_cow(self) -> Cow<'a, str> {
         if self.is_ascii_lowercased() {
-            Cow::from(self)
+            Cow::Borrowed(self)
         } else {
-            Cow::from(self.to_ascii_lowercase())
+            Cow::Owned(self.to_ascii_lowercase())
         }
     }
 }

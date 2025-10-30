@@ -6,6 +6,12 @@ This crate provides some traits to extend `[u8]`, `str` and `Cow<str>`.
 ## Examples
 
 ```rust
+# #[cfg(feature = "alloc")]
+# extern crate alloc;
+
+# #[cfg(feature = "alloc")]
+# use alloc::borrow::Cow;
+
 use str_utils::*;
 
 assert_eq!(true, "foobar".starts_with_ignore_ascii_case("FoO"));
@@ -35,6 +41,9 @@ assert_eq!("AABBßZZ", "aabbßzz".to_ascii_uppercase_cow());
 
 # #[cfg(feature = "alloc")]
 assert_eq!("Line 1 Line 2 Line 2 Line 3 Line 4 Line 5", "Line 1\r\nLine 2\r\nLine 2\rLine 3\nLine 4\nLine 5".replace_newlines_with_space());
+
+# #[cfg(feature = "alloc")]
+assert_eq!("abc", Cow::from(" abc ").trim_cow()); // the `trim_cow` family of methods can be used on a `Cow<str>` to allow fluent method chaining.
 ```
 
 ## No Std
@@ -87,6 +96,8 @@ mod starts_with_multiple;
 mod to_lowercase;
 #[cfg(feature = "alloc")]
 mod to_uppercase;
+#[cfg(feature = "alloc")]
+mod trim;
 
 pub use ends_with_ignore_ascii_case::*;
 pub use ends_with_ignore_ascii_case_multiple::*;
@@ -117,6 +128,8 @@ pub use starts_with_multiple::*;
 pub use to_lowercase::*;
 #[cfg(feature = "alloc")]
 pub use to_uppercase::*;
+#[cfg(feature = "alloc")]
+pub use trim::*;
 
 #[cfg(feature = "alloc")]
 pub(crate) unsafe fn find_substring_position(parent: &str, sub: &str) -> (usize, usize) {

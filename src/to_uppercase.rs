@@ -1,4 +1,4 @@
-use alloc::{borrow::Cow, str};
+use alloc::borrow::Cow;
 
 use crate::{IsAsciiUppercased, IsUppercased};
 
@@ -15,18 +15,18 @@ impl<'a> ToUppercase<'a> for &'a str {
     #[inline]
     fn to_uppercase_cow(self) -> Cow<'a, str> {
         if self.is_uppercased() {
-            Cow::from(self)
+            Cow::Borrowed(self)
         } else {
-            Cow::from(self.to_uppercase())
+            Cow::Owned(self.to_uppercase())
         }
     }
 
     #[inline]
     fn to_ascii_uppercase_cow(self) -> Cow<'a, str> {
         if self.is_ascii_uppercased() {
-            Cow::from(self)
+            Cow::Borrowed(self)
         } else {
-            Cow::from(self.to_ascii_uppercase())
+            Cow::Owned(self.to_ascii_uppercase())
         }
     }
 }

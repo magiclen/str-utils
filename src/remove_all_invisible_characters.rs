@@ -1,4 +1,4 @@
-use alloc::{borrow::Cow, str};
+use alloc::{borrow::Cow, str::from_utf8_unchecked};
 
 use crate::to_substring_in_place;
 
@@ -73,7 +73,7 @@ impl<'a> RemoveInvisibleCharacters<'a> for &'a str {
 
         let width = loop {
             if p == length {
-                return Cow::from(s);
+                return Cow::Borrowed(s);
             }
 
             let e = bytes[p];
@@ -102,8 +102,8 @@ impl<'a> RemoveInvisibleCharacters<'a> for &'a str {
             if p == length {
                 // situation 1 or situation 2
 
-                return Cow::from(unsafe {
-                    str::from_utf8_unchecked(&bytes[..heading_normal_characters_end_index])
+                return Cow::Borrowed(unsafe {
+                    from_utf8_unchecked(&bytes[..heading_normal_characters_end_index])
                 });
             }
 
@@ -127,8 +127,8 @@ impl<'a> RemoveInvisibleCharacters<'a> for &'a str {
             if p == length {
                 // situation 3
 
-                return Cow::from(unsafe {
-                    str::from_utf8_unchecked(&bytes[following_invisible_characters_end_index..])
+                return Cow::Borrowed(unsafe {
+                    from_utf8_unchecked(&bytes[following_invisible_characters_end_index..])
                 });
             }
 
@@ -152,8 +152,8 @@ impl<'a> RemoveInvisibleCharacters<'a> for &'a str {
             if p == length {
                 // situation 4
 
-                return Cow::from(unsafe {
-                    str::from_utf8_unchecked(
+                return Cow::Borrowed(unsafe {
+                    from_utf8_unchecked(
                         &bytes[following_invisible_characters_end_index
                             ..following_normal_characters_end_index],
                     )
@@ -199,7 +199,7 @@ impl<'a> RemoveInvisibleCharacters<'a> for &'a str {
 
         new_v.extend_from_slice(&bytes[start..p]);
 
-        Cow::from(unsafe { String::from_utf8_unchecked(new_v) })
+        Cow::Owned(unsafe { String::from_utf8_unchecked(new_v) })
     }
 }
 
