@@ -12,6 +12,7 @@ impl StartsWithMultiple for [u8] {
         bs.iter().position(|b| a.starts_with(b.as_ref()))
     }
 }
+
 impl StartsWithMultiple for str {
     #[inline]
     fn starts_with_multiple<S: AsRef<[u8]>>(&self, bs: &[S]) -> Option<usize> {
