@@ -1,12 +1,12 @@
 [package]
 name = "str-utils"
-version = "0.3.0"
+version = "0.3.1"
 authors = ["Magic Len <len@magiclen.org>"]
 edition = "2021"
 rust-version = "1.80"
 repository = "https://github.com/magiclen/str-utils"
 homepage = "https://magiclen.org/str-utils"
-keywords = ["caseless", "string", "ascii", "starts_with", "ends_with"]
+keywords = ["string", "character", "cow", "fluent"]
 categories = ["no-std", "text-processing"]
 description = "This crate provides some traits to extend `[u8]`, `str` and `Cow<str>`."
 license = "MIT"
