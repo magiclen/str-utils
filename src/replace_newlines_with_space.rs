@@ -1,4 +1,4 @@
-use alloc::{borrow::Cow, vec::Vec};
+use alloc::{borrow::Cow, string::String, vec::Vec};
 
 /// To extend `str` and `Cow<str>` to have `replace_newlines_with_space` method.
 ///

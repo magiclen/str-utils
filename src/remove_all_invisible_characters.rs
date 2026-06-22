@@ -1,4 +1,4 @@
-use alloc::{borrow::Cow, str::from_utf8_unchecked};
+use alloc::{borrow::Cow, str::from_utf8_unchecked, string::String};
 
 use crate::to_substring_in_place;
 

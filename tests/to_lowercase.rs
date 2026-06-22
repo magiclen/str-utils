@@ -19,7 +19,7 @@ fn to_ascii_lowercase_cow() {
 
     assert_eq!(s.len(), s.trim().len());
 
-    let ss = s.to_ascii_lowercase();
+    let ss = s.to_ascii_lowercase_cow();
 
     assert_eq!("aabb\u{0130}zz", ss);
 }

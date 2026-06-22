@@ -50,8 +50,8 @@ fn trim_ascii() {
     let c_owned: Cow<'static, str> = Cow::Owned(String::from(s));
 
     let a = "12345 6789";
-    assert_eq!(a, c_borrowed.trim_ascii());
-    assert_eq!(a, c_owned.trim_ascii());
+    assert_eq!(a, c_borrowed.trim_ascii_cow());
+    assert_eq!(a, c_owned.trim_ascii_cow());
 }
 
 #[test]
@@ -62,8 +62,8 @@ fn trim_ascii_start() {
     let c_owned: Cow<'static, str> = Cow::Owned(String::from(s));
 
     let a = "12345 6789 \n";
-    assert_eq!(a, c_borrowed.trim_ascii_start());
-    assert_eq!(a, c_owned.trim_ascii_start());
+    assert_eq!(a, c_borrowed.trim_ascii_start_cow());
+    assert_eq!(a, c_owned.trim_ascii_start_cow());
 }
 
 #[test]
@@ -74,6 +74,6 @@ fn trim_ascii_end() {
     let c_owned: Cow<'static, str> = Cow::Owned(String::from(s));
 
     let a = "\n 12345 6789";
-    assert_eq!(a, c_borrowed.trim_ascii_end());
-    assert_eq!(a, c_owned.trim_ascii_end());
+    assert_eq!(a, c_borrowed.trim_ascii_end_cow());
+    assert_eq!(a, c_owned.trim_ascii_end_cow());
 }

@@ -67,6 +67,9 @@ default-features = false
 #[cfg(feature = "alloc")]
 extern crate alloc;
 
+#[cfg(feature = "alloc")]
+use alloc::string::String;
+
 mod ends_with_ignore_ascii_case;
 mod ends_with_ignore_ascii_case_multiple;
 #[cfg(feature = "alloc")]

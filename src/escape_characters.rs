@@ -1,4 +1,4 @@
-use alloc::{borrow::Cow, str::from_utf8_unchecked, vec::Vec};
+use alloc::{borrow::Cow, str::from_utf8_unchecked, string::String, vec::Vec};
 
 /// To extend `str` and `Cow<str>` to have `escape_characters` and `escape_ascii_characters` method.
 ///
@@ -16,6 +16,8 @@ pub trait EscapeCharacters<'a> {
     ///
     /// Similar to [`EscapeCharacters::escape_characters`], but operates directly on bytes instead of Unicode scalar values.
     /// This version is optimized for ASCII-only escaping and avoids unnecessary Unicode conversions.
+    ///
+    /// NOTE: The `escape_character` must be an ASCII character (i.e., in the range 0x00 to 0x7F) for this method to work correctly.
     fn escape_ascii_characters(
         self,
         escape_character: u8,
@@ -30,10 +32,6 @@ impl<'a> EscapeCharacters<'a> for &'a str {
         escaped_characters: &[char],
     ) -> Cow<'a, str> {
         let s = self;
-
-        if escaped_characters.is_empty() {
-            return Cow::Borrowed(s);
-        }
 
         let mut p = 0;
 
@@ -82,9 +80,7 @@ impl<'a> EscapeCharacters<'a> for &'a str {
     ) -> Cow<'a, str> {
         let s = self;
 
-        if escaped_characters.is_empty() {
-            return Cow::Borrowed(s);
-        }
+        debug_assert!(escape_character.is_ascii(), "escape_character must be ASCII");
 
         let bytes = s.as_bytes();
 

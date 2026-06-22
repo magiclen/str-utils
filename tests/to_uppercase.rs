@@ -19,7 +19,7 @@ fn to_ascii_uppercase_cow() {
 
     assert_eq!(s.len(), s.trim().len());
 
-    let ss = s.to_ascii_uppercase();
+    let ss = s.to_ascii_uppercase_cow();
 
     assert_eq!("AABBßZZ", ss);
 }
