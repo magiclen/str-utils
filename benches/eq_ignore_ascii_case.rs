@@ -1,3 +1,5 @@
+#![allow(deprecated)]
+
 use std::{fs, hint::black_box};
 
 use bencher::{benchmark_group, benchmark_main, Bencher};

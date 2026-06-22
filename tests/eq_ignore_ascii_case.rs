@@ -1,3 +1,5 @@
+#![allow(deprecated)]
+
 use str_utils::EqIgnoreAsciiCase;
 
 #[test]
