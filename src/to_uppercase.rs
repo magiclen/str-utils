@@ -36,16 +36,7 @@ impl<'a> ToUppercase<'a> for Cow<'a, str> {
     fn to_uppercase_cow(self) -> Cow<'a, str> {
         match self {
             Cow::Borrowed(s) => s.to_uppercase_cow(),
-            Cow::Owned(s) => {
-                match s.to_uppercase_cow() {
-                    Cow::Borrowed(_) => {
-                        // it changes nothing
-                        // if there were any characters that needed to be lowercased, it had to be `Cow::Owned`
-                        Cow::Owned(s)
-                    },
-                    Cow::Owned(s) => Cow::Owned(s),
-                }
-            },
+            Cow::Owned(s) => Cow::Owned(cow_into_owned!(s, s.as_str().to_uppercase_cow())),
         }
     }
 
@@ -53,16 +44,7 @@ impl<'a> ToUppercase<'a> for Cow<'a, str> {
     fn to_ascii_uppercase_cow(self) -> Cow<'a, str> {
         match self {
             Cow::Borrowed(s) => s.to_ascii_uppercase_cow(),
-            Cow::Owned(s) => {
-                match s.to_ascii_uppercase_cow() {
-                    Cow::Borrowed(_) => {
-                        // it changes nothing
-                        // if there were any characters that needed to be lowercased, it had to be `Cow::Owned`
-                        Cow::Owned(s)
-                    },
-                    Cow::Owned(s) => Cow::Owned(s),
-                }
-            },
+            Cow::Owned(s) => Cow::Owned(cow_into_owned!(s, s.as_str().to_ascii_uppercase_cow(),)),
         }
     }
 }

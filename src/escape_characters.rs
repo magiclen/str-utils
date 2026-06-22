@@ -153,16 +153,10 @@ impl<'a> EscapeCharacters<'a> for Cow<'a, str> {
     ) -> Cow<'a, str> {
         match self {
             Cow::Borrowed(s) => s.escape_characters(escape_character, escaped_characters),
-            Cow::Owned(s) => {
-                match s.escape_characters(escape_character, escaped_characters) {
-                    Cow::Borrowed(_) => {
-                        // it changes nothing
-                        // if there were any characters that needed to be escaped, it had to be `Cow::Owned`
-                        Cow::Owned(s)
-                    },
-                    Cow::Owned(s) => Cow::Owned(s),
-                }
-            },
+            Cow::Owned(s) => Cow::Owned(cow_into_owned!(
+                s,
+                s.as_str().escape_characters(escape_character, escaped_characters),
+            )),
         }
     }
 
@@ -174,16 +168,10 @@ impl<'a> EscapeCharacters<'a> for Cow<'a, str> {
     ) -> Cow<'a, str> {
         match self {
             Cow::Borrowed(s) => s.escape_ascii_characters(escape_character, escaped_characters),
-            Cow::Owned(s) => {
-                match s.escape_ascii_characters(escape_character, escaped_characters) {
-                    Cow::Borrowed(_) => {
-                        // it changes nothing
-                        // if there were any characters that needed to be escaped, it had to be `Cow::Owned`
-                        Cow::Owned(s)
-                    },
-                    Cow::Owned(s) => Cow::Owned(s),
-                }
-            },
+            Cow::Owned(s) => Cow::Owned(cow_into_owned!(
+                s,
+                s.as_str().escape_ascii_characters(escape_character, escaped_characters),
+            )),
         }
     }
 }

@@ -69,6 +69,41 @@ extern crate alloc;
 #[cfg(feature = "alloc")]
 use alloc::string::String;
 
+#[cfg(feature = "alloc")]
+#[doc(hidden)]
+pub mod __macro_private {
+    pub use alloc::borrow::Cow;
+}
+
+/// Converts a `Cow` produced from an existing owned value back into an owned value.
+///
+/// If the `Cow` is owned, this returns the owned value inside it. If the `Cow` is borrowed, this returns the original owned value.
+///
+/// This is a macro so the `Cow` expression can borrow from the original value before the macro moves that value in the borrowed branch.
+///
+/// # Examples
+///
+/// ```rust
+/// use str_utils::{cow_into_owned, ToLowercase};
+///
+/// let s = String::from("abc");
+/// let ptr = s.as_ptr();
+/// let s = cow_into_owned!(s, s.as_str().to_lowercase_cow());
+///
+/// assert_eq!("abc", s);
+/// assert_eq!(ptr, s.as_ptr());
+/// ```
+#[cfg(feature = "alloc")]
+#[macro_export]
+macro_rules! cow_into_owned {
+    ($owned:expr, $cow:expr $(,)?) => {{
+        match $cow {
+            $crate::__macro_private::Cow::Owned(s) => s,
+            $crate::__macro_private::Cow::Borrowed(_) => $owned,
+        }
+    }};
+}
+
 mod ends_with_ignore_ascii_case;
 mod ends_with_ignore_ascii_case_multiple;
 #[cfg(feature = "alloc")]

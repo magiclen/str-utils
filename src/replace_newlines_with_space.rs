@@ -98,14 +98,7 @@ impl<'a> ReplaceNewlinesWithSpace<'a> for Cow<'a, str> {
         match self {
             Cow::Borrowed(s) => s.replace_newlines_with_space(),
             Cow::Owned(s) => {
-                match s.replace_newlines_with_space() {
-                    Cow::Borrowed(_) => {
-                        // it changes nothing
-                        // if there were any characters that needed to be replaced, it had to be `Cow::Owned`
-                        Cow::Owned(s)
-                    },
-                    Cow::Owned(s) => Cow::Owned(s),
-                }
+                Cow::Owned(crate::cow_into_owned!(s, s.as_str().replace_newlines_with_space(),))
             },
         }
     }
