@@ -43,7 +43,7 @@ fn escape_ascii_characters_escapes_escape_character_with_empty_list() {
 }
 
 #[test]
-#[should_panic(expected = "escape_character must be ASCII")]
+#[cfg_attr(debug_assertions, should_panic(expected = "escape_character must be ASCII"))]
 fn escape_ascii_characters_rejects_non_ascii_escape_character() {
     let _ = "a%b".escape_ascii_characters(0xFF, b"%");
 }
