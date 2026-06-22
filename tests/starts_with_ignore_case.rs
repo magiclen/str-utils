@@ -9,4 +9,10 @@ fn starts_with_ignore_case() {
     assert!(!"Maße 123".starts_with_ignore_case("messe"));
     assert!(!"Maße 123".starts_with_ignore_case("123"));
     assert!(!"Maße 123".starts_with_ignore_case(" Maße 123"));
+
+    assert!("foobar".starts_with_ignore_case("FOO"));
+    assert!(!"foobar".starts_with_ignore_case("BAR"));
+
+    assert!("İx".starts_with_ignore_case("i"));
+    assert!("ßx".starts_with_ignore_case("S"));
 }

@@ -22,10 +22,7 @@ impl StartsWithIgnoreCase for str {
             let au = a.to_uppercase_cow();
             let bu = b.to_uppercase_cow();
 
-            let au_length = au.len();
-            let bu_length = bu.len();
-
-            if au_length >= bu_length && unsafe { au.get_unchecked(..bu_length) == bu } {
+            if au.as_bytes().starts_with(bu.as_bytes()) {
                 return true;
             }
         }
@@ -33,13 +30,6 @@ impl StartsWithIgnoreCase for str {
         let al = a.to_lowercase_cow();
         let bl = b.to_lowercase_cow();
 
-        let al_length = al.len();
-        let bl_length = bl.len();
-
-        if al_length >= bl_length {
-            unsafe { al.get_unchecked(..bl_length) == bl }
-        } else {
-            false
-        }
+        al.as_bytes().starts_with(bl.as_bytes())
     }
 }
