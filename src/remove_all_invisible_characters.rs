@@ -58,10 +58,8 @@ impl<'a> RemoveInvisibleCharacters<'a> for &'a str {
                         _ => (),
                     },
                     // zero width character
-                    0xEF => {
-                        if bytes[p + 1] == 0xBB && bytes[p + 2] == 0xBF {
-                            return true;
-                        }
+                    0xEF if bytes[p + 1] == 0xBB && bytes[p + 2] == 0xBF => {
+                        return true;
                     },
                     _ => (),
                 },
