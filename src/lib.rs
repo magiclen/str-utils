@@ -42,6 +42,9 @@ assert_eq!("AABBßZZ", "aabbßzz".to_ascii_uppercase_cow());
 assert_eq!("Line 1 Line 2 Line 2 Line 3 Line 4 Line 5", "Line 1\r\nLine 2\r\nLine 2\rLine 3\nLine 4\nLine 5".replace_newlines_with_space());
 
 # #[cfg(feature = "alloc")]
+assert_eq!("foo bar", "foo_baz".replace_cow("_baz", " bar"));
+
+# #[cfg(feature = "alloc")]
 assert_eq!("abc", Cow::from(" abc ").trim_cow()); // the `trim_cow` family of methods can be used on a `Cow<str>` to allow fluent method chaining.
 ```
 
@@ -121,7 +124,11 @@ mod is_ascii_uppercased;
 mod is_lowercased;
 mod is_uppercased;
 #[cfg(feature = "alloc")]
+mod pattern;
+#[cfg(feature = "alloc")]
 mod remove_all_invisible_characters;
+#[cfg(feature = "alloc")]
+mod replace;
 #[cfg(feature = "alloc")]
 mod replace_newlines_with_space;
 mod starts_with_ignore_ascii_case;
@@ -153,7 +160,11 @@ pub use is_ascii_uppercased::*;
 pub use is_lowercased::*;
 pub use is_uppercased::*;
 #[cfg(feature = "alloc")]
+pub use pattern::*;
+#[cfg(feature = "alloc")]
 pub use remove_all_invisible_characters::*;
+#[cfg(feature = "alloc")]
+pub use replace::*;
 #[cfg(feature = "alloc")]
 pub use replace_newlines_with_space::*;
 pub use starts_with_ignore_ascii_case::*;
